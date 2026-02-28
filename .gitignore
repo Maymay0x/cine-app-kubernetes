@@ -1,0 +1,32 @@
+# Environnements
+*.pyc
+__pycache__/
+.env
+.venv
+venv/
+ENV/
+env/
+
+# Docker
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Kubernetes
+k8s/*.bak
+**/*.bak
+
+# Istio (exclure les dossiers téléchargés)
+istio-*/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Système
+.DS_Store
+Thumbs.db

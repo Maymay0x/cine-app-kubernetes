@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cineapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cineapi
+  template:
+    metadata:
+      labels:
+        app: cineapi
+    spec:
+      containers:
+        - name: cineapi
+          image: cineapi:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MYSQL_HOST
+              value: "mysql"
+            - name: MYSQL_USER
+              value: "root"
+            - name: MYSQL_PASSWORD
+              value: "rootpassword"
+            - name: MYSQL_DB
+              value: "cinebook"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cineapi
+spec:
+  type: NodePort
+  ports:
+    - port: 5000
+      targetPort: 5000
+  selector:
+    app: cineapi

@@ -1,0 +1,40 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: cineapi-authz
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: cineapi
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/cinefront-sa"]
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+        paths: ["/api/films*", "/api/seances*", "/api/tickets*"]
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/cineapi-sa"]
+    to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/api/health"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: mysql-authz
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/cineapi-sa"]
