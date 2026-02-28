@@ -15,8 +15,8 @@ spec:
       serviceAccountName: cinefront-sa
       containers:
       - name: cinefront
-        image: cinefront:latest
-        imagePullPolicy: Never
+        image: maymay1008/cinefront:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
 ---

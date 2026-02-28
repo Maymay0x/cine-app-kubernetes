@@ -15,8 +15,8 @@ spec:
       serviceAccountName: cineapi-sa
       containers:
         - name: cineapi
-          image: cineapi:latest
-          imagePullPolicy: Never
+          image: maymay1008/cineapi:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
           env:
