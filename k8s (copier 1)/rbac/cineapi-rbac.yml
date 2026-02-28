@@ -1,26 +1,35 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cineapi-sa
+  namespace: default
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   namespace: default
-  name: mysql-role
+  name: cineapi-role
 rules:
 - apiGroups: [""]
-  resources: ["persistentvolumeclaims"]
+  resources: ["secrets"]
+  verbs: ["get"]
+- apiGroups: [""]
+  resources: ["pods"]
   verbs: ["get", "list"]
 - apiGroups: [""]
-  resources: ["secrets"]
+  resources: ["configmaps"]
   verbs: ["get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: mysql-rolebinding
+  name: cineapi-rolebinding
   namespace: default
 subjects:
 - kind: ServiceAccount
-  name: mysql-sa
+  name: cineapi-sa
   namespace: default
 roleRef:
   kind: Role
-  name: mysql-role
+  name: cineapi-role
   apiGroup: rbac.authorization.k8s.io

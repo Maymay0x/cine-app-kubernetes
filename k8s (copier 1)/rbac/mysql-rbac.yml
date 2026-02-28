@@ -1,3 +1,9 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mysql-sa
+  namespace: default
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -5,10 +11,13 @@ metadata:
   name: mysql-role
 rules:
 - apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get"]
+- apiGroups: [""]
   resources: ["persistentvolumeclaims"]
   verbs: ["get", "list"]
 - apiGroups: [""]
-  resources: ["secrets"]
+  resources: ["pods"]
   verbs: ["get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1

@@ -12,7 +12,6 @@ spec:
       labels:
         app: cineapi
     spec:
-      serviceAccountName: cineapi-sa
       containers:
         - name: cineapi
           image: cineapi:latest

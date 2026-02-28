@@ -12,7 +12,6 @@ spec:
       labels:
         app: cinefront
     spec:
-      serviceAccountName: cinefront-sa
       containers:
       - name: cinefront
         image: cinefront:latest
