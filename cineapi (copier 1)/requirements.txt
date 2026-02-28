@@ -1,7 +1,0 @@
-flask
-flask-mysqldb
-flask_login
-flask_bcrypt
-flask_session
-cachelib
-mysqlclient
