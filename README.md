@@ -41,30 +41,30 @@ kubectl label namespace default istio-injection=enabled --overwrite
 eval $(minikube docker-env)
 ```
 
-8. **Lancer le déploiement**
+4. **Lancer le déploiement**
 ```bash
 chmod +x deploy.sh
 ./deploy.sh
 ```
 
-9. **Vérifier que tous les pods sont en état Running**
+5. **Vérifier que tous les pods sont en état Running**
 ```bash
 kubectl get pods -w
 ```
 (peut prendre du temps pour que tout Run correctement sans crash)
 
-10. **Installer Kiali et Prometheus**
+6. **Installer Kiali et Prometheus**
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/kiali.yaml
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/prometheus.yaml
 ```
 
-11. **Lancer Kiali**
+7. **Lancer Kiali**
 ```bash
 istioctl dashboard kiali
 ```
 
-12. **Accéder à l'application**
+8. **Accéder à l'application**
 ```bash
 # Version HTTP
 ./port-forward.sh
@@ -102,11 +102,10 @@ Configuration dans `k8s/mtls/` :
 
 ![Kiali](kiali-secure.png)
 
-
 ### 3. HTTPS pour le trafic externe
 
 L'accès à l'application depuis le navigateur peut se faire en HTTPS grâce à :
-- Un certificat SSL/TLS généré avec mktls (recommandé) ou auto-signé
+- Un certificat SSL/TLS généré avec mkcert (recommandé) ou auto-signé
 - Une gateway Istio configurée pour écouter sur les ports 80 (HTTP) et 443 (HTTPS)
 
 La redirection HTTP vers HTTPS peut être activée selon les besoins.
@@ -131,8 +130,44 @@ La redirection HTTP vers HTTPS peut être activée selon les besoins.
 - **Administrateur** : admin / admin
 - **Utilisateur** : à créer via la page d'inscription
 
-
 ## Remarques importantes
 
-- Pour HTTPS, exécuter `mkcert -install` et `mkcert localhost 127.0.0.1 ::1` avant de créer le secret
 - Le déploiement complet prend environ 5-10 minutes selon la configuration
+- Les certificats ne sont pas versionnés (voir `.gitignore`)
+
+### Installation et utilisation de mkcert pour HTTPS
+
+Pour éviter l'avertissement de sécurité lié aux certificats auto-signés, nous utilisons **mkcert**, un outil qui permet de créer une autorité de certification locale et de générer des certificats valides et reconnus par le navigateur.
+
+
+**Installation :**
+```bash
+# Ubuntu/Debian
+sudo apt install libnss3-tools
+curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/amd64"
+chmod +x mkcert-v*-linux-amd64
+sudo mv mkcert-v*-linux-amd64 /usr/local/bin/mkcert
+
+# Installation de l'autorité locale
+mkcert -install
+```
+
+**Génération des certificats pour le projet :**
+```bash
+# Dans le dossier du projet
+mkcert localhost 127.0.0.1 ::1
+```
+
+**Création du secret Kubernetes :**
+```bash
+kubectl create -n istio-system secret tls cinebook-certs \
+  --key=localhost+2-key.pem \
+  --cert=localhost+2.pem
+```
+
+**Redémarrage de la gateway :**
+```bash
+kubectl rollout restart deployment -n istio-system istio-ingressgateway
+```
+
+Cette approche permet d'avoir une connexion HTTPS totalement valide et sécurisée en environnement de développement, sans les inconvénients des certificats auto-signés classiques.
