@@ -1,43 +1,54 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: cinebook-gateway
+  namespace: default
 spec:
   selector:
     istio: ingressgateway
   servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-        - "*"
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: cinebook-certs
+    hosts:
+    - "*"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: cinebook-virtualservice
+  namespace: default
 spec:
   hosts:
-    - "*"
+  - "*"
   gateways:
-    - cinebook-gateway
+  - cinebook-gateway
   http:
-    - match:
-        - uri:
-            prefix: /api
-      route:
-        - destination:
-            host: cineapi.default.svc.cluster.local
-            port:
-              number: 5000
-    - match:
-        - uri:
-            exact: /
-        - uri:
-            prefix: /admin.html
-      route:
-        - destination:
-            host: cinefront.default.svc.cluster.local
-            port:
-              number: 80
+  - match:
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: cineapi.default.svc.cluster.local
+        port:
+          number: 5000
+  - match:
+    - uri:
+        exact: /
+    - uri:
+        prefix: /admin.html
+    route:
+    - destination:
+        host: cinefront.default.svc.cluster.local
+        port:
+          number: 80
