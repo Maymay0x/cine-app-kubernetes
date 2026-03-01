@@ -2,7 +2,7 @@
 
 ## Contexte du projet
 
-CineBook est une application de réservation de places de cinéma développée dans le cadre de l'UE Programmation Web et Distribuée. L'objectif était de concevoir une architecture complète en microservices orchestrée par Kubernetes avec un service mesh Istio, intégrant des mécanismes de sécurité avancés.
+CineBook est une application de réservation de places de cinéma développée dans le cadre de l'UE ProgWeb. L'objectif était de concevoir une architecture complète en microservices orchestrée par Kubernetes avec un service mesh Istio, intégrant des mécanismes de sécurité avancés.
 
 L'application permet aux utilisateurs de consulter les films à l'affiche, voir les séances disponibles et réserver des places. Un espace administrateur permet de gérer les films et les séances.
 
