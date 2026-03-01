@@ -422,9 +422,9 @@ def initialize_database():
             # Films de démo
             cur.execute("""
                 INSERT INTO films (titre, duree, genre, description, affiche_url) VALUES
-                ('Dune 2', 166, 'Science-fiction', 'Suite de l''épopée sur Arrakis', 'https://via.placeholder.com/300x450?text=Dune+2'),
-                ('Barbie', 114, 'Comédie', 'Dans le monde parfait de Barbie', 'https://via.placeholder.com/300x450?text=Barbie'),
-                ('Oppenheimer', 180, 'Drame historique', 'L''histoire du père de la bombe atomique', 'https://via.placeholder.com/300x450?text=Oppenheimer')
+                ('Dune 2', 166, 'Science-fiction', 'Suite de l''épopée sur Arrakis', 'https://sf2.cnetfrance.fr/wp-content/uploads/cnet/2024/02/dune-2-actrice-mystere.jpg'),
+                ('Barbie', 114, 'Comédie', 'Dans le monde parfait de Barbie', 'https://u-mercari-images.mercdn.net/photos/m15618219739_1.jpg?width=768&quality=75&_=1756253068'),
+                ('Oppenheimer', 180, 'Drame historique', 'L''histoire du père de la bombe atomique', 'https://fr.web.img5.acsta.net/pictures/23/05/26/16/52/2793170.jpg')
             """)
         
         # Table seances
