@@ -100,7 +100,7 @@ Configuration dans `k8s/mtls/` :
 - `strict-mtls.yml` : active mTLS STRICT sur le namespace
 - `destination-rule-mtls.yml` : règle globale pour tout le namespace
 
-![Kiali](kiali.png)
+![Kiali](kiali-secure.png)
 
 
 ### 3. HTTPS pour le trafic externe
